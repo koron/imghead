@@ -7,7 +7,6 @@ import (
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -88,7 +87,7 @@ func ImageHead(ctx context.Context, u string, n int) (*ImageInfo, error) {
 		if _, ok := err.(ImageError); !ok {
 			return nil, err
 		}
-		log.Printf("fallback to full content for %s: %s", u, err)
+		l.Printf("fallback to full content for %s: %s", u, err)
 	}
 	// decode full content.
 	inf, err := imageHead(ctx, u, 0)

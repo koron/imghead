@@ -17,6 +17,8 @@ var (
 	file      string
 )
 
+var l = log.New(os.Stderr, "IMGHEAD ", log.LstdFlags)
+
 func inf2str(inf *ImageInfo) string {
 	return fmt.Sprintf("statusCode:%d\twidth:%d\theight:%d\tformat:%s", inf.StatusCode, inf.Width, inf.Height, inf.Format)
 }
@@ -24,7 +26,7 @@ func inf2str(inf *ImageInfo) string {
 func singleMode(u string) {
 	inf, err := ImageHead(context.Background(), u, fetchSize)
 	if err != nil {
-		log.Fatal("ERROR: %s", err)
+		l.Fatal("ERROR: %s", err)
 	}
 	fmt.Println(inf2str(inf))
 }
@@ -48,7 +50,7 @@ func fileMode(r io.Reader) {
 		}
 		if err != nil {
 			if err != io.EOF {
-				log.Printf("failed to read input: %s", err)
+				l.Printf("failed to read input: %s", err)
 			}
 			break
 		}
@@ -79,7 +81,7 @@ func workerMain(n int, ctx context.Context, ch chan string) {
 			}
 			inf, err := ImageHead(ctx, u, fetchSize)
 			if err != nil {
-				log.Printf("imghead failed for %s: %s", u, err)
+				l.Printf("failed for %s: %s", u, err)
 				continue
 			}
 			fmt.Printf("%s\t%s\n", u, inf2str(inf))
@@ -98,7 +100,7 @@ func main() {
 	if file != "" {
 		f, err := os.Open(file)
 		if err != nil {
-			log.Fatalf("failed to read file: %s", err)
+			l.Fatalf("failed to read file: %s", err)
 		}
 		fileMode(f)
 		f.Close()
