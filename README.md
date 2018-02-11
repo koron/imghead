@@ -2,13 +2,15 @@
 
 imghead fetch head of image and decode its dimension.
 
-## Input URLs priority
+## Install or update
 
-1. `-file` option
-2. arguments
-3. STDIN
+Install or update:
 
-## Examples
+```console
+$ go get -u github.com/koron/imghead
+```
+
+## Getting started
 
 Fetch single image header
 
@@ -48,3 +50,9 @@ https://example.org/image005.png	statusCode:200	width:800	height:600	format:png
 *   `-size` - size of range query (default: 1024)
 *   `-worker` - number of parallel download
 *   `-file` - file for URL list to fetch
+
+## Input URLs priority
+
+1. `-file` option
+2. arguments
+3. STDIN
