@@ -1,6 +1,7 @@
 # imghead tool
 
-imghead fetch head of image and decode its dimension.
+imghead fetch range of image header and decode its dimension.
+if the server doesn't support range requests, it fetch whole of the content.
 
 ## Install or update
 
@@ -15,34 +16,28 @@ $ go get -u github.com/koron/imghead
 Fetch single image header
 
 ```console
-$ imghead https://example.org/image001.png
-statusCode:200	width:1200	height:675	format:png
+$ imghead.exe http://httpbin.org/image/png
+statusCode:200  contentLength:8090      width:100       height:100      format:png
 ```
 
 Fetch header of multiple images by arguments
 
 ```console
-$ imghead https://example.org/image001.png https://example.org/image002.png
-https://example.org/image001.png	statusCode:200	width:1200	height:675	format:png
-https://example.org/image002.png	statusCode:200	width:800	height:600	format:png
+$ imghead.exe http://httpbin.org/image/png http://httpbin.org/image/jpeg
+http://httpbin.org/image/png    statusCode:200  contentLength:8090      width:100       height:100      format:png
+http://httpbin.org/image/jpeg   statusCode:200  contentLength:35588     width:239       height:178      format:jpeg
 ```
 
 Fetch header of multiple images by file
 
 ```console
 $ cat list.txt
-https://example.org/image001.png
-https://example.org/image002.png
-https://example.org/image003.png
-https://example.org/image004.png
-https://example.org/image005.png
+http://httpbin.org/image/png
+http://httpbin.org/image/jpeg
 
 $ imghead -file list.txt
-https://example.org/image001.png	statusCode:200	width:1200	height:675	format:png
-https://example.org/image002.png	statusCode:200	width:800	height:600	format:png
-https://example.org/image003.png	statusCode:200	width:800	height:600	format:png
-https://example.org/image004.png	statusCode:200	width:800	height:600	format:png
-https://example.org/image005.png	statusCode:200	width:800	height:600	format:png
+http://httpbin.org/image/png    statusCode:200  contentLength:8090      width:100       height:100      format:png
+http://httpbin.org/image/jpeg   statusCode:200  contentLength:35588     width:239       height:178      format:jpeg
 ```
 
 ### Options

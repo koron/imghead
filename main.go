@@ -20,7 +20,7 @@ var (
 var l = log.New(os.Stderr, "IMGHEAD ", log.LstdFlags)
 
 func inf2str(inf *ImageInfo) string {
-	return fmt.Sprintf("statusCode:%d\twidth:%d\theight:%d\tformat:%s", inf.StatusCode, inf.Width, inf.Height, inf.Format)
+	return fmt.Sprintf("statusCode:%d\tcontentLength:%d\twidth:%d\theight:%d\tformat:%s", inf.StatusCode, inf.ContentLength, inf.Width, inf.Height, inf.Format)
 }
 
 func singleMode(u string) {

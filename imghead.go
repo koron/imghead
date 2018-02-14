@@ -15,7 +15,8 @@ import (
 
 // ImageInfo is for ImageHead response.
 type ImageInfo struct {
-	StatusCode int
+	StatusCode    int
+	ContentLength int64
 
 	Format string
 	Width  int
@@ -49,7 +50,7 @@ func imageHead(ctx context.Context, u string, n int) (*ImageInfo, error) {
 		return nil, err
 	}
 	if n > 0 {
-		req.Header.Add("Range", "bytes=0-%d"+strconv.Itoa(n))
+		req.Header.Add("Range", "bytes=0-%d"+strconv.Itoa(n)-1)
 	}
 	if ctx != nil {
 		req.WithContext(ctx)
@@ -69,10 +70,11 @@ func imageHead(ctx context.Context, u string, n int) (*ImageInfo, error) {
 		return nil, &imageError{sc: sc, derr: err}
 	}
 	return &ImageInfo{
-		StatusCode: sc,
-		Format:     f,
-		Width:      c.Width,
-		Height:     c.Height,
+		StatusCode:    sc,
+		ContentLength: resp.ContentLength,
+		Format:        f,
+		Width:         c.Width,
+		Height:        c.Height,
 	}, nil
 }
 
