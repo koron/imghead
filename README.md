@@ -16,28 +16,34 @@ $ go get -u github.com/koron/imghead
 Fetch single image header
 
 ```console
-$ imghead.exe http://httpbin.org/image/png
-statusCode:200  contentLength:8090      width:100       height:100      format:png
+$ imghead.exe https://pbs.twimg.com/media/DU3Jo_LUMAA0Zpw.jpg
+statusCode:206  contentLength:1024      width:900       height:1200     format:jpeg
 ```
 
-Fetch header of multiple images by arguments
+Fetch multiple images by arguments
 
 ```console
-$ imghead.exe http://httpbin.org/image/png http://httpbin.org/image/jpeg
+$ imghead.exe http://httpbin.org/image/png https://pbs.twimg.com/media/DU3Jo_LUMAA0Zpw.jpg
 http://httpbin.org/image/png    statusCode:200  contentLength:8090      width:100       height:100      format:png
-http://httpbin.org/image/jpeg   statusCode:200  contentLength:35588     width:239       height:178      format:jpeg
+https://pbs.twimg.com/media/DU3Jo_LUMAA0Zpw.jpg statusCode:206  contentLength:1024      width:900       height:1200     format:jpeg
 ```
 
 Fetch header of multiple images by file
 
 ```console
-$ cat list.txt
-http://httpbin.org/image/png
-http://httpbin.org/image/jpeg
+$ cat testdata/list.txt
+https://pbs.twimg.com/media/DVuoPdOV4AEA_rV.jpg
+https://pbs.twimg.com/media/DVlbdZ3VQAADJMl.jpg
+https://pbs.twimg.com/media/DVkLilJVQAAH1h9.jpg
+https://pbs.twimg.com/media/DVab9nmX0AEro8f.jpg
+https://pbs.twimg.com/media/DU3Jo_LUMAA0Zpw.jpg
 
-$ imghead -file list.txt
-http://httpbin.org/image/png    statusCode:200  contentLength:8090      width:100       height:100      format:png
-http://httpbin.org/image/jpeg   statusCode:200  contentLength:35588     width:239       height:178      format:jpeg
+$ imghead -file testdata/list.txt
+https://pbs.twimg.com/media/DVab9nmX0AEro8f.jpg statusCode:206  contentLength:1024      width:1200      height:900      format:jpeg
+https://pbs.twimg.com/media/DVkLilJVQAAH1h9.jpg statusCode:206  contentLength:1024      width:1200      height:900      format:jpeg
+https://pbs.twimg.com/media/DVuoPdOV4AEA_rV.jpg statusCode:206  contentLength:1024      width:900       height:1200     format:jpeg
+https://pbs.twimg.com/media/DVlbdZ3VQAADJMl.jpg statusCode:206  contentLength:1024      width:1200      height:900      format:jpeg
+https://pbs.twimg.com/media/DU3Jo_LUMAA0Zpw.jpg statusCode:206  contentLength:1024      width:900       height:1200     format:jpeg
 ```
 
 ### Options
@@ -48,6 +54,13 @@ http://httpbin.org/image/jpeg   statusCode:200  contentLength:35588     width:23
 
 ## Input URLs priority
 
-1. `-file` option
-2. arguments
-3. STDIN
+1.  `-file` option
+2.  arguments
+3.  STDIN
+
+## Supported image formats
+
+*   GIF
+*   PNG
+*   JPEG
+*   BMP
