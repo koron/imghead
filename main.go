@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"strings"
 	"sync"
 )
 
@@ -46,7 +47,7 @@ func fileMode(r io.Reader) {
 	for {
 		u, err := rd.ReadString('\n')
 		if u != "" {
-			ch <- u
+			ch <- strings.TrimSpace(u)
 		}
 		if err != nil {
 			if err != io.EOF {

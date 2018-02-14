@@ -50,7 +50,7 @@ func imageHead(ctx context.Context, u string, n int) (*ImageInfo, error) {
 		return nil, err
 	}
 	if n > 0 {
-		req.Header.Add("Range", "bytes=-%d"+strconv.Itoa(n-1))
+		req.Header.Add("Range", "bytes=0-"+strconv.Itoa(n-1))
 	}
 	if ctx != nil {
 		req.WithContext(ctx)
