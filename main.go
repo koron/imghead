@@ -24,10 +24,22 @@ func inf2str(inf *ImageInfo) string {
 	return fmt.Sprintf("statusCode:%d\tcontentLength:%d\twidth:%d\theight:%d\tformat:%s", inf.StatusCode, inf.ContentLength, inf.Width, inf.Height, inf.Format)
 }
 
+func exitCode(err error) int {
+	switch err.(type) {
+	case *FetchError:
+		return 2
+	case *DecodeError:
+		return 3
+	default:
+		return 1
+	}
+}
+
 func singleMode(u string) {
 	inf, err := ImageHead(context.Background(), u, fetchSize)
 	if err != nil {
-		l.Fatal("ERROR: %s", err)
+		l.Printf("ERROR: %s", err)
+		os.Exit(exitCode(err))
 	}
 	fmt.Println(inf2str(inf))
 }

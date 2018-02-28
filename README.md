@@ -13,17 +13,18 @@ $ go get -u github.com/koron/imghead
 
 ## Getting started
 
-Fetch single image header
+Fetch single image header.  If it failed, reason of failure is known by its
+exit code.  See [below](#exit-code) for details.
 
 ```console
-$ imghead.exe https://pbs.twimg.com/media/DU3Jo_LUMAA0Zpw.jpg
+$ imghead https://pbs.twimg.com/media/DU3Jo_LUMAA0Zpw.jpg
 statusCode:206  contentLength:1024      width:900       height:1200     format:jpeg
 ```
 
-Fetch multiple images by arguments
+Fetch single image by arguments
 
 ```console
-$ imghead.exe http://httpbin.org/image/png https://pbs.twimg.com/media/DU3Jo_LUMAA0Zpw.jpg
+$ imghead http://httpbin.org/image/png https://pbs.twimg.com/media/DU3Jo_LUMAA0Zpw.jpg
 http://httpbin.org/image/png    statusCode:200  contentLength:8090      width:100       height:100      format:png
 https://pbs.twimg.com/media/DU3Jo_LUMAA0Zpw.jpg statusCode:206  contentLength:1024      width:900       height:1200     format:jpeg
 ```
@@ -64,3 +65,11 @@ https://pbs.twimg.com/media/DU3Jo_LUMAA0Zpw.jpg statusCode:206  contentLength:10
 *   PNG
 *   JPEG
 *   BMP
+
+## Exit code
+
+imghead returns below exit codes when it failed with single argument.
+
+*   failed to fetch HTTP/S: 2
+*   failed to decode image: 3
+*   other failure: 1

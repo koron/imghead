@@ -28,20 +28,29 @@ type ImageError interface {
 	StatusCode() int
 }
 
-type imageError struct {
+type FetchError struct {
+	sc   int
+}
+
+func (err *FetchError) StatusCode() int {
+	return err.sc
+}
+
+func (err *FetchError) Error() string {
+	return fmt.Sprintf("fetch failed: status code=%d", err.sc)
+}
+
+type DecodeError struct {
 	sc   int
 	derr error
 }
 
-func (err *imageError) StatusCode() int {
+func (err *DecodeError) StatusCode() int {
 	return err.sc
 }
 
-func (err *imageError) Error() string {
-	if err.derr != nil {
-		return "decode error: " + err.derr.Error()
-	}
-	return fmt.Sprintf("no contents: status code is %d", err.sc)
+func (err *DecodeError) Error() string {
+	return "decode failed: " + err.derr.Error()
 }
 
 func imageHead(ctx context.Context, u string, n int) (*ImageInfo, error) {
@@ -63,11 +72,11 @@ func imageHead(ctx context.Context, u string, n int) (*ImageInfo, error) {
 
 	sc := resp.StatusCode
 	if sc != http.StatusOK && sc != http.StatusPartialContent {
-		return nil, &imageError{sc: sc}
+		return nil, &FetchError{sc: sc}
 	}
 	c, f, err := image.DecodeConfig(resp.Body)
 	if err != nil {
-		return nil, &imageError{sc: sc, derr: err}
+		return nil, &DecodeError{sc: sc, derr: err}
 	}
 	return &ImageInfo{
 		StatusCode:    sc,
