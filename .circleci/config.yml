@@ -7,8 +7,11 @@ jobs:
     steps:
       - run:
           name: Golang version
-          command: go version
+          command: |
+            go version
+            go env
       - checkout
+
       - run:
           name: Install dependencies
           command: go get -v -t -d ./...
@@ -18,3 +21,11 @@ jobs:
       - run:
           name: Build
           command: go build -v
+
+      - run:
+          name: Correct artifacts
+          command: |
+            mkdir /tmp/artifacts
+            cp imghead /tmp/artifacts
+      - store_artifacts:
+          path: /tmp/artifacts

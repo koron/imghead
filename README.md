@@ -1,5 +1,8 @@
 # imghead tool
 
+[![CircleCI](https://circleci.com/gh/koron/imghead.svg?style=svg)](https://circleci.com/gh/koron/imghead)
+[![Go Report Card](https://goreportcard.com/badge/github.com/koron/imghead)](https://goreportcard.com/report/github.com/koron/imghead)
+
 imghead fetch range of image header and decode its dimension.
 if the server doesn't support range requests, it fetch whole of the content.
 
