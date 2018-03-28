@@ -23,32 +23,39 @@ type ImageInfo struct {
 	Height int
 }
 
+// ImageError is an error interface which occurred in imghead.
 type ImageError interface {
 	error
 	StatusCode() int
 }
 
+// FetchError means HTTP fetch operation failure.
 type FetchError struct {
-	sc   int
+	sc int
 }
 
+// StatusCode returns HTTP failed status code.
 func (err *FetchError) StatusCode() int {
 	return err.sc
 }
 
+// Error returns error message.
 func (err *FetchError) Error() string {
 	return fmt.Sprintf("fetch failed: status code=%d", err.sc)
 }
 
+// DecodeError means failure on decoding image.
 type DecodeError struct {
 	sc   int
 	derr error
 }
 
+// StatusCode returns HTTP failed status code.
 func (err *DecodeError) StatusCode() int {
 	return err.sc
 }
 
+// Error returns error message.
 func (err *DecodeError) Error() string {
 	return "decode failed: " + err.derr.Error()
 }

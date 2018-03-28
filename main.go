@@ -13,8 +13,8 @@ import (
 )
 
 var (
-	fetchSize int = 1024
-	workerNum int = 4
+	fetchSize int
+	workerNum int
 	file      string
 )
 
@@ -78,14 +78,14 @@ func startWorkers(ctx context.Context, n int) (chan string, *sync.WaitGroup) {
 	for i := 0; i < n; i++ {
 		wg.Add(1)
 		go func(i int) {
-			workerMain(i, ctx, ch)
+			workerMain(ctx, i, ch)
 			wg.Done()
 		}(i)
 	}
 	return ch, wg
 }
 
-func workerMain(n int, ctx context.Context, ch chan string) {
+func workerMain(ctx context.Context, n int, ch chan string) {
 	for {
 		select {
 		case u, ok := <-ch:
